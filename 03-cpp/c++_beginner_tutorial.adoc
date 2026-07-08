@@ -18,6 +18,8 @@ C++ 程序有点像给电脑写纸条。
 * `cout`
 * 花括号
 * `int`
+* `float`
+* `fixed`
 
 == 第一个完整程序
 
@@ -59,6 +61,57 @@ int main() {
 ----
 
 如果没有它，后面的 `cout` 可能就会变成“没带课本还想回答问题”。
+
+=== include 大概有几种
+
+刚开始不用背很多头文件。先知道一件事：
+
+----
+#include 是请工具箱，不是写功能本身。
+----
+
+从写法上看，常见的 `include` 大概有两种：
+
+[source,cpp]
+----
+#include <iostream>
+#include "my_tools.h"
+----
+
+尖括号 `< >` 常用来包含 C++ 自带或安装好的库。双引号 `" "` 常用来包含自己项目里的头文件。
+
+从用途上看，常见头文件可以先分成几类：
+
+[cols="1,2,3", options="header"]
+|===
+| 类型 | 例子 | 常见用途
+
+| 输入输出
+| `<iostream>`
+| 使用 `cin`、`cout`、`endl`
+
+| 输出格式
+| `<iomanip>`
+| 使用 `fixed`、`setprecision` 控制小数显示
+
+| 数学工具
+| `<cmath>`
+| 使用平方根、幂、四舍五入等数学函数
+
+| 文字工具
+| `<string>`
+| 使用 `string` 保存一串文字
+
+| 容器工具
+| `<vector>`
+| 使用 `vector` 保存一排可以变长的数据
+
+| 自己写的工具
+| `"student.h"`
+| 使用自己项目里写好的函数或类
+|===
+
+C++ 标准库里的头文件有很多，不需要一开始数清楚。入门时先记住几个典型的：要输入输出找 `<iostream>`，要控制小数格式找 `<iomanip>`，要做数学计算找 `<cmath>`。
 
 == iostream：输入输出小卖部
 
@@ -194,6 +247,97 @@ cout << apples + bananas << endl;
 
 因为 5 个苹果加 3 根香蕉，虽然水果开会有点热闹，但数字相加还是 8。
 
+== float：小数小盒子
+
+[source,cpp]
+----
+float height = 150.5;
+----
+
+`float` 用来保存小数，比如：
+
+* `3.14`
+* `0.5`
+* `98.6`
+* `150.5`
+
+可以把 `float height = 150.5;` 想成：
+
+----
+拿一个能装小数的小盒子，名字叫 height，里面放 150.5。
+----
+
+`float` 适合入门时理解“小数变量”。以后你还会看到 `double`，它也是装小数的盒子，而且通常比 `float` 更精细。
+
+再看一个小例子：
+
+[source,cpp]
+----
+float price = 2.5;
+float count = 3;
+
+cout << price * count << endl;
+----
+
+电脑会输出：
+
+----
+7.5
+----
+
+因为每块饼干 2.5 元，买 3 块就是 7.5 元。
+
+== fixed：让小数乖乖站好
+
+有时候我们希望小数显示得整齐一点。
+
+比如钱常常写成两位小数：
+
+----
+7.50
+----
+
+不是：
+
+----
+7.5
+----
+
+这时可以使用 `<iomanip>` 里的 `fixed` 和 `setprecision`：
+
+[source,cpp]
+----
+#include <iomanip>
+
+cout << fixed << setprecision(2);
+cout << 7.5 << endl;
+----
+
+`fixed` 的意思可以粗浅理解成：
+
+----
+小数点后面固定显示几位。
+----
+
+`setprecision(2)` 的意思是：
+
+----
+小数点后面显示 2 位。
+----
+
+所以它会显示：
+
+----
+7.50
+----
+
+注意：想使用 `setprecision`，通常要先写：
+
+[source,cpp]
+----
+#include <iomanip>
+----
+
 == return：报告任务完成
 
 [source,cpp]
@@ -280,6 +424,26 @@ int price = 2;
 int price = 3;
 ----
 
+=== 练习 4：小数收银员
+
+运行 `06_float_receipt.cpp`，看看小数金额是不是会显示成两位。
+
+试着把：
+
+[source,cpp]
+----
+float price = 2.5;
+----
+
+改成：
+
+[source,cpp]
+----
+float price = 3.25;
+----
+
+再运行一次，观察总价怎么变化。
+
 == 怎么编译运行
 
 如果电脑里装了 `g++`，可以在 `c++` 文件夹里运行：
@@ -296,6 +460,14 @@ g++ 01_hello.cpp -o hello
 ----
 g++ 03_candy_shop.cpp -o candy
 ./candy
+----
+
+小数示例也类似：
+
+[source,bash]
+----
+g++ 06_float_receipt.cpp -o receipt
+./receipt
 ----
 
 == 最后总结
@@ -321,6 +493,12 @@ g++ 03_candy_shop.cpp -o candy
 
 | `int`
 | 保存整数的小盒子
+
+| `float`
+| 保存小数的小盒子
+
+| `fixed`
+| 让小数点后面固定显示几位
 
 | `return`
 | 报告程序或函数完成任务
