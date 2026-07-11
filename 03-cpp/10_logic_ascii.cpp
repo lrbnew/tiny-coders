@@ -9,11 +9,29 @@ void printYesNo(int value) {
     }
 }
 
+void printRuleLine(const char* expression, int result) {
+    cout << "算式: " << expression << " => ";
+    if (result) {
+        cout << "true  成立" << endl;
+    } else {
+        cout << "false 不成立" << endl;
+    }
+}
+
+int askYesNo(const char* question) {
+    int answer;
+    cout << question << "[1/0] ";
+    cin >> answer;
+    cout << endl;
+    return answer;
+}
+
 void drawAndGate(int left, int right) {
     int result = left && right;
 
     cout << "\n[AND: &&  与]" << endl;
     cout << "两边都要 YES，门才会打开。" << endl;
+    printRuleLine("作业写完 && 书包收好", result);
     cout << endl;
     cout << " homework done? "; printYesNo(left);  cout << " ----\\" << endl;
     cout << "                              >---- ";
@@ -32,6 +50,7 @@ void drawOrGate(int left, int right) {
 
     cout << "\n[OR: ||  或]" << endl;
     cout << "只要有一个 YES，就算通过。" << endl;
+    printRuleLine("带雨伞 || 没下雨", result);
     cout << endl;
     cout << " has umbrella? "; printYesNo(left);  cout << " ----\\" << endl;
     cout << "                             )---- ";
@@ -50,6 +69,7 @@ void drawNotGate(int value) {
 
     cout << "\n[NOT: !  非]" << endl;
     cout << "把条件反过来。" << endl;
+    printRuleLine("!困了", result);
     cout << endl;
     cout << " sleepy? ";
     printYesNo(value);
@@ -74,23 +94,21 @@ int main() {
     cout << "请用 1 表示 YES，用 0 表示 NO。" << endl;
     cout << endl;
 
-    cout << "作业写完了吗？";
-    cin >> homeworkDone;
-
-    cout << "书包收好了吗？";
-    cin >> bagReady;
-
-    cout << "带雨伞了吗？";
-    cin >> hasUmbrella;
-
-    cout << "现在下雨吗？";
-    cin >> raining;
-
-    cout << "现在困吗？";
-    cin >> sleepy;
+    cout << "第 1 关：&& 与" << endl;
+    homeworkDone = askYesNo("作业写完了吗？");
+    bagReady = askYesNo("书包收好了吗？");
 
     drawAndGate(homeworkDone, bagReady);
+
+    cout << "\n第 2 关：|| 或" << endl;
+    hasUmbrella = askYesNo("带雨伞了吗？");
+    raining = askYesNo("现在下雨吗？");
+
     drawOrGate(hasUmbrella, !raining);
+
+    cout << "\n第 3 关：! 非" << endl;
+    sleepy = askYesNo("现在困吗？");
+
     drawNotGate(sleepy);
 
     cout << "\n小结:" << endl;
